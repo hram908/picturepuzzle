@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Puzzle game</title>
+
+    <link type="text/css" href="./css/puzzle.css" rel="stylesheet"/>
+</head>
+<body>
+	<div class="headercontainer">
+	    <div class="logo"><img class="logoimage" src="images/logo.jpg" alt="logo"/></div>
+	    <span class="title">Picture Puzzle</span>
+	    <!--div class="logodivider"></div-->
+	</div>
+	<div id="canvas"></div>
+
+    <!-- jQuery and jQuery extensions -->	
+    <script type="text/javascript" src="./js/lib/jquery/jquery-1.4.2.js"></script>
+    <script type="text/javascript" src="./js/lib/jquery/jquery.inherit-1.3.2.js"></script>
+
+    <!-- puzzle -->
+    <script type="text/javascript" src="./js/puzzle.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            PuzzleApplication.setUp();
+        });
+    </script>
+</body>
+</html>
