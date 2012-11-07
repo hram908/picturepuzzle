@@ -117,8 +117,13 @@ PuzzleApplication = (function ($) {
                 Puzzle.prototype.onMouseDownOnScene.call(context, evt);
                 return false;
             });
-            $(this.puzzleCanvas).bind('mousewheel', function (event, delta) {
-                Puzzle.prototype.onZoom.call(context, event, delta);
+            if (document.body.addEventListener)
+                document.body.addEventListener('DOMMouseScroll', function (event) {
+                    Puzzle.prototype.onZoom.call(context, event);
+                    return false;
+                }, false);
+            $(this.puzzleCanvas).bind('mousewheel', function (event) {
+                Puzzle.prototype.onZoom.call(context, event);
                 return false;
             });
         },
@@ -166,13 +171,10 @@ PuzzleApplication = (function ($) {
             this.scrambleImage();
         },
 
-        onZoom: function (event, delta) {
-            if (delta == undefined) {
-                //delta = (event.originalEvent.wheelDelta != undefined)?event.originalEvent.wheelDelta:event.originalEvent.detail;
-                delta = (event.wheelDelta) ? event.wheelDelta : event.detail;
-            }
+        onZoom: function (event) {
+            delta = (event.wheelDelta) ? event.wheelDelta : -event.detail;
             if (delta == 0) return;
-            scaleFactor = (delta > 0) ? 1.1 : 1 / 1.1; //(event.wheelDelta) ? ((event.wheelDelta > 0) ? 1.1 : 1 / 1.1) : ((event.detail) ? ((event.detail < 0) ? 1.1 : 1 / 1.1) : 1.0);
+            scaleFactor = (delta > 0) ? 1.1 : 1 / 1.1; 
             tileSizeX = Math.round(parseFloat(this.tiles[0].UI.style.width) * scaleFactor);
             tileSizeY = Math.round(parseFloat(this.tiles[0].UI.style.height) * scaleFactor);
             if ((delta < 0 && (tileSizeX <= this.minImageSize || tileSizeY <= this.minImageSize)) || (delta > 0 && (tileSizeX >= $(this.puzzleCanvas).width() || tileSizeY >= $(this.puzzleCanvas).height()))) return;
@@ -622,7 +624,7 @@ PuzzleApplication = (function ($) {
                         parseInt($(canvas).css("paddingLeft")) + parseInt($(canvas).css("paddingRight")) +
                         parseInt($("body").css("borderLeftWidth")) + parseInt($("body").css("borderRightWidth")) +
                         parseInt($("body").css("marginLeft")) + parseInt($("body").css("marginRight")) +
-                        parseInt($("body").css("paddingLeft")) + parseInt($("body").css("paddingRight")) ;
+                        parseInt($("body").css("paddingLeft")) + parseInt($("body").css("paddingRight"));
         $(canvas).css("width", canvasWidth);
     }
 
